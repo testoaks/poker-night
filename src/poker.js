@@ -1,7 +1,7 @@
 //set up variables
 let deck = [];
 let shuffledDeck = [];
-const rankName = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const rankName = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const suiteName = ['diamonds', 'hearts', 'spades', 'clubs'];
 
 //sets Up Deck
@@ -39,6 +39,25 @@ let table = shuffledDeck.splice(0, 5);
 console.log(players);
 
 console.log(table);
+// find a High Card
+for (let i = 0; i < 8; i++) {
+    let sevenCards = players[i].concat(table);
+    sevenCards.sort(function (a, b) {
+        return a.rank - b.rank;
+    });
+    //console.log(sevenCards[6]);
+}
 
-
+//find a Pair
+for (let i = 0; i < 8; i++) {
+    let sevenCards = players[i].concat(table);
+    sevenCards.sort(function (a, b) {
+        return a.rank - b.rank;
+    });
+    for (let j = 0; j < 6; j++) {
+        if (sevenCards[j].rank === sevenCards[j + 1].rank) {
+            console.log('pair', sevenCards[j]);
+        }
+    }
+}
 
