@@ -40,7 +40,7 @@ for (let z = 0; z < 1000000; z++) {
 
 //Makes hands of 7cards and Sort in Ascending order for each player
     let sevenCards;
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 8; i++) {
         sevenCards = players[i].concat(table);
         sevenCards.sort(function (a, b) {
             return a.rank - b.rank;
@@ -160,14 +160,26 @@ for (let z = 0; z < 1000000; z++) {
         }
 
         //find 2 pair
-        for (let i = 0; i < 6; i++) {
-            let twoPair = [];
-            if (sevenCards[i] === sevenCards [i + 1]) {
-                twoPair.push(sevenCards[i]);
+        let twoPair = [];
+        let highCard = [];
+        for (let i = 0; i <= 12; i++) {
+            let twoPairCheck = sevenCards.filter(sevenCards => sevenCards.rank === i);
+            if (twoPairCheck.length === 2) {
+                twoPair.push(...twoPairCheck);
+            }
+            if (twoPairCheck.length === 1) {
+                highCard.push(twoPairCheck[0]);
             }
         }
-        //console.log('twoPair', sevenCards);
+        if (twoPair.length === 6) {
+            highCard.push(twoPair[0]);
+            twoPair.slice(0,2);
+        }
+        if(twoPair.length === 4 ) {
+            twoPair.push(highCard[2]);
+            console.log('twoPair', twoPair);
+        }
     }
 }
 
-console.log('Full House', count);
+//console.log('Full House', count);
