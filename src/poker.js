@@ -83,8 +83,7 @@ for (let z = 0; z < 1000000; z++) {
 
 
 // find a High Card
-
-//console.log(sevenCards[6]);
+        //console.log(sevenCards[6], sevenCards[5], sevenCards[4], sevenCards[3], sevenCards[2]);
 
 // find 3 of a kind
         for (let j = 0; j <= 12; j++) {
@@ -133,6 +132,32 @@ for (let z = 0; z < 1000000; z++) {
         }
 
 //find Straight Flush
+        for (let suite = 0; suite < 4; suite++) {
+            let straightFlush = [];
+            let straightFlushCheck = [];
+            for (let eachCard = 0; eachCard < 7; eachCard++) {
+                if (sevenCards[eachCard].suite === suite) {
+                    straightFlush.push(sevenCards[eachCard]);
+                }
+            }
+            if (straightFlush.length > 5) {
+                let cardsToRemove = straightFlush.length - 5;
+                straightFlush.splice(0, cardsToRemove);
+            }
+            if (straightFlush.length === 5) {
+                for (let eachCard = 0; eachCard < 4; eachCard++) {
+                    let eachCardPlusOne = eachCard + 1;
+                    let checkNextNumInStraight = straightFlush[eachCardPlusOne].rank;
+                    if (straightFlush[eachCard].rank === (checkNextNumInStraight - 1)) {
+                        straightFlushCheck.push(straightFlush[eachCard]);
+                    }
+                }
+            }
+            if (straightFlushCheck.length === 4) {
+                straightFlushCheck.push(straightFlush[4]);
+                console.log('Straight Flush', straightFlushCheck);
+            }
+        }
 
 // find Full House
         let fullHouse = [];
@@ -173,11 +198,11 @@ for (let z = 0; z < 1000000; z++) {
         }
         if (twoPair.length === 6) {
             highCard.push(twoPair[0]);
-            twoPair.slice(0,2);
+            twoPair.slice(0, 2);
         }
-        if(twoPair.length === 4 ) {
+        if (twoPair.length === 4) {
             twoPair.push(highCard[2]);
-            console.log('twoPair', twoPair);
+            //console.log('twoPair', twoPair);
         }
     }
 }
