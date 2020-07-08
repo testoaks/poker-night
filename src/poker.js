@@ -1,45 +1,54 @@
 //set up variables
-//for (let z = 0; z < 50000; i++) {
-let deck = [];
-let shuffledDeck = [];
-const rankName = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-const suiteName = ['diamonds', 'hearts', 'spades', 'clubs'];
+let count = 0;
+for (let z = 0; z < 1000000; z++) {
+    let deck = [];
+    let shuffledDeck = [];
+    const rankName = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    const suiteName = ['diamonds', 'hearts', 'spades', 'clubs'];
 
 //sets Up Deck
-for (let i = 0; i <= 12; i++) {
-    for (let j = 0; j <= 3; j++) {
-        let card = {
-            rank: i,
-            suite: j,
-            cardText: rankName[i] + ' of ' + suiteName[j]
-        };
-        deck.push(card);
+    for (let i = 0; i <= 12; i++) {
+        for (let j = 0; j <= 3; j++) {
+            let card = {
+                rank: i,
+                suite: j,
+                cardText: rankName[i] + ' of ' + suiteName[j]
+            };
+            deck.push(card);
+        }
     }
-}
 
 //shuffles Deck
-for (let i = 52; i > 0; i--) {
-    let randomCard = Math.floor(Math.random() * i);
-    shuffledDeck.push(deck[randomCard]);
-    deck.splice(randomCard, 1);
-}
+    for (let i = 52; i > 0; i--) {
+        let randomCard = Math.floor(Math.random() * i);
+        shuffledDeck.push(deck[randomCard]);
+        deck.splice(randomCard, 1);
+    }
 
 //Deals Cards to players
-let players = [];
-for (let i = 0; i < 8; i++) {
-    players.push([shuffledDeck[0]]);
-    shuffledDeck.splice(0, 1);
-}
+    let players = [];
+    for (let i = 0; i < 8; i++) {
+        players.push([shuffledDeck[0]]);
+        shuffledDeck.splice(0, 1);
+    }
+    for (let i = 0; i < 8; i++) {
+        players[i].push(shuffledDeck[0]);
+        shuffledDeck.splice(0, 1);
+    }
 //Deal cards to table
     let table = shuffledDeck.splice(0, 5);
 
 //Makes hands of 7cards and Sort in Ascending order for each player
     let sevenCards;
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 1; i++) {
         sevenCards = players[i].concat(table);
         sevenCards.sort(function (a, b) {
             return a.rank - b.rank;
         });
+        //console.log(sevenCards);
+        //console.log('table', table);
+        //console.log('players', [players[i]]);
+
 
 //See what card we got
 //console.log(players);
@@ -57,17 +66,10 @@ for (let i = 0; i < 8; i++) {
             }
             if (suite.length > 5) {
                 let cardsToRemove = suite.length - 5;
-
-                let compareNumbers = (a, b) => {
-                    return a.rank - b.rank;
-                };
-                suite.sort(compareNumbers);
                 suite.splice(0, cardsToRemove);
-            } else if (suite.length === 5) {
-                let compareNumbers = (a, b) => {
-                    return a.rank - b.rank;
-                };
-                suite.sort(compareNumbers);
+            }
+            if (suite.length === 5) {
+                //console.log('Flush', suite);
             }
         }
 
@@ -85,20 +87,20 @@ for (let i = 0; i < 8; i++) {
 //console.log(sevenCards[6]);
 
 // find 3 of a kind
-        for (let j = 0; j < 12; j++) {
+        for (let j = 0; j <= 12; j++) {
             let threeOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
             if (threeOfKind.length === 3) {
                 let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
                 leftOvers.sort(function (a, b) {
                     return a.rank - b.rank;
-                })
+                });
                 threeOfKind.push(leftOvers[3], leftOvers[2]);
                 //console.log('3 of a Kind',threeOfKind);
             }
         }
 
 //find 4 of a kind
-        for (let j = 0; j < 12; j++) {
+        for (let j = 0; j <= 12; j++) {
             let fourOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
             if (fourOfKind.length === 4) {
                 let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
@@ -109,50 +111,63 @@ for (let i = 0; i < 8; i++) {
             }
         }
 //find Royal Flush
-        /*for (let i = 8; i < 12; i++) {
+        for (let suite = 0; suite < 4; suite++) {
             let royalFlush = [];
-            if (sevenCards.includes(sevenCards.rank[i])) {
-            }
-            for (let j = 0; j < 4; j++) {
-                let suite = [];
-                for (let k = 0; k < 7; k++) {
-                    if (sevenCards[k].suite === j) {
-                        royalFlush.push(sevenCards[k]);
-                    }
-                    let compareNumbers = (a, b) => {
-                        return a.rank - b.rank;
-                    };
-                    suite.sort(compareNumbers);
+            for (let eachCard = 0; eachCard < 7; eachCard++) {
+                if (sevenCards[eachCard].suite === suite) {
+                    royalFlush.push(sevenCards[eachCard]);
                 }
-               // console.log('royal Flush', royalFlush);
+            }
+            if (royalFlush.length > 5) {
+                let cardsToRemove = royalFlush.length - 5;
+                royalFlush.splice(0, cardsToRemove);
+            }
+            if (royalFlush.length === 5) {
+                let eachCard = 0;
+                let checkIfGreaterThanTen = eachCard + 8;
+                if (royalFlush[eachCard].rank === checkIfGreaterThanTen) {
+                    //count++;
+                    //console.log('Royal Flush', count);
+                }
             }
         }
-        */
+
 //find Straight Flush
 
 // find Full House
-        for (let j = 0; j < 12; j++) {
+        let fullHouse = [];
+        let threeOfAKind = [];
+        let pair = [];
+        for (let j = 0; j <= 12; j++) {
             let fullHouseCheck = sevenCards.filter(sevenCards => sevenCards.rank === j);
-            let leftOvers = [];
-            let fullHouse = [];
             if (fullHouseCheck.length === 3) {
-                leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
-                fullHouse.push(fullHouseCheck);
+                threeOfAKind.push(...fullHouseCheck);
             }
             if (fullHouseCheck.length === 2) {
-                leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
-                fullHouse.push(fullHouseCheck);
+                pair.push(...fullHouseCheck);
             }
-            //if (fullHouse.length === 5) {
-            //console.log('Full House', fullHouse);
+            if (threeOfAKind.length === 6) {
+                pair.push(threeOfAKind[0], threeOfAKind[1]);
+                threeOfAKind.splice(0, 3);
+            }
+            if (pair.length > 2) {
+                pair.splice(0, 2);
+            }
+        }
+        fullHouse.push(...pair, ...threeOfAKind);
+        if (fullHouse.length === 5) {
+            count++;
         }
 
-//find 2 pair
+        //find 2 pair
         for (let i = 0; i < 6; i++) {
             let twoPair = [];
             if (sevenCards[i] === sevenCards [i + 1]) {
                 twoPair.push(sevenCards[i]);
             }
         }
+        //console.log('twoPair', sevenCards);
     }
-console.log('twoPair', sevenCards);
+}
+
+console.log('Full House', count);
