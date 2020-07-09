@@ -12,7 +12,7 @@ let foundHands = {
     highCard: 0
 };
 
-for (let z = 0; z < 10000000; z++) {
+for (let z = 0; z < 10; z++) {
     let deck = [];
     let shuffledDeck = [];
     const rankName = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -324,12 +324,9 @@ for (let z = 0; z < 10000000; z++) {
             continue;
         }
 
-
         // find a High Card
         highCard = [sevenCards[6], sevenCards[5], sevenCards[4], sevenCards[3], sevenCards[2]];
         foundHands.highCard++
-
-
     }
 }
 

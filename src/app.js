@@ -3,7 +3,6 @@ import "./helpers/external_links.js";
 import 'angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
-import "./stylesheets/main";
 
 window.ngapp = angular.module('myApp', ['ui.router', 'ct.ui.router.extras']);
 
