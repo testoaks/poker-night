@@ -1,6 +1,18 @@
 //set up variables
-let count = 0;
-for (let z = 0; z < 1000000; z++) {
+let foundHands = {
+    royalFlush: 0,
+    straightFlush: 0,
+    fourOfAKind: 0,
+    fullHouse: 0,
+    flush: 0,
+    straight: 0,
+    threeOfAKind: 0,
+    twoPair: 0,
+    pair: 0,
+    highCard: 0
+};
+
+for (let z = 0; z < 10000000; z++) {
     let deck = [];
     let shuffledDeck = [];
     const rankName = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -41,6 +53,7 @@ for (let z = 0; z < 1000000; z++) {
     //Makes hands of 7cards and Sort in Ascending order for each player
     let sevenCards;
     for (let i = 0; i < 1; i++) {
+        let handDetected = false;
         sevenCards = players[i].concat(table);
         sevenCards.sort(function (a, b) {
             return a.rank - b.rank;
@@ -54,59 +67,6 @@ for (let z = 0; z < 1000000; z++) {
         //console.log(players);
         //console.log(table);
 
-        //checks for flush
-        for (let j = 0; j < 4; j++) {
-            let suite = [];
-            for (let k = 0; k < 7; k++) {
-                if (sevenCards[k].suite === j) {
-                    suite.push(sevenCards[k]);
-                }
-            }
-            if (suite.length > 5) {
-                let cardsToRemove = suite.length - 5;
-                suite.splice(0, cardsToRemove);
-            }
-            if (suite.length === 5) {
-                //console.log('Flush', suite);
-            }
-        }
-
-
-        //find a Pair
-        for (let j = 0; j < 6; j++) {
-            if (sevenCards[j].rank === sevenCards[j + 1].rank) {
-                //console.log('pair', sevenCards[j]);
-            }
-        }
-
-
-        // find a High Card
-        //console.log(sevenCards[6], sevenCards[5], sevenCards[4], sevenCards[3], sevenCards[2]);
-
-        // find 3 of a kind
-        for (let j = 0; j <= 12; j++) {
-            let threeOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
-            if (threeOfKind.length === 3) {
-                let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
-                leftOvers.sort(function (a, b) {
-                    return a.rank - b.rank;
-                });
-                threeOfKind.push(leftOvers[3], leftOvers[2]);
-                //console.log('3 of a Kind',threeOfKind);
-            }
-        }
-
-        //find 4 of a kind
-        for (let j = 0; j <= 12; j++) {
-            let fourOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
-            if (fourOfKind.length === 4) {
-                let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
-                fourOfKind.push(leftOvers[2]);
-                // console.log('4 of a Kind', fourOfKind);
-                // console.log(players);
-                //console.log(table);
-            }
-        }
         //find Royal Flush
         for (let suite = 0; suite < 4; suite++) {
             let royalFlush = [];
@@ -123,10 +83,13 @@ for (let z = 0; z < 1000000; z++) {
                 let eachCard = 0;
                 let checkIfGreaterThanTen = eachCard + 8;
                 if (royalFlush[eachCard].rank === checkIfGreaterThanTen) {
-                    //count++;
-                    //console.log('Royal Flush', count);
+                    handDetected = true;
+                    foundHands.royalFlush++;
                 }
             }
+        }
+        if (handDetected) {
+            continue;
         }
 
         //find Straight Flush
@@ -179,11 +142,80 @@ for (let z = 0; z < 1000000; z++) {
                 if (straight.length >= 5) {
                     let cardsToRemove = straight.length - 5;
                     straight.splice(0, cardsToRemove);
-                    count++;
+                    handDetected = true;
+                    foundHands.straightFlush++;
                 } else if (aLowStraight.length === 5) {
-                    count++
+                    handDetected = true;
+                    foundHands.straightFlush++;
                 }
             }
+        }
+        if (handDetected) {
+            continue;
+        }
+
+        //find 4 of a kind
+        for (let j = 0; j <= 12; j++) {
+            let fourOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
+            if (fourOfKind.length === 4) {
+                let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
+                fourOfKind.push(leftOvers[2]);
+                handDetected = true;
+                foundHands.fourOfAKind++
+            }
+        }
+        if (handDetected) {
+            continue;
+        }
+
+        // find Full House
+        let fullHouse = [];
+        let threeOfAKind = [];
+        let pair = [];
+        for (let j = 0; j <= 12; j++) {
+            let fullHouseCheck = sevenCards.filter(sevenCards => sevenCards.rank === j);
+            if (fullHouseCheck.length === 3) {
+                threeOfAKind.push(...fullHouseCheck);
+            }
+            if (fullHouseCheck.length === 2) {
+                pair.push(...fullHouseCheck);
+            }
+            if (threeOfAKind.length === 6) {
+                pair.push(threeOfAKind[0], threeOfAKind[1]);
+                threeOfAKind.splice(0, 3);
+            }
+            if (pair.length > 2) {
+                pair.splice(0, 2);
+            }
+        }
+        fullHouse.push(...pair, ...threeOfAKind);
+        if (fullHouse.length === 5) {
+            handDetected = true;
+            foundHands.fullHouse++
+        }
+        if (handDetected) {
+            continue;
+        }
+
+        //checks for flush
+        for (let j = 0; j < 4; j++) {
+            let suite = [];
+            for (let k = 0; k < 7; k++) {
+                if (sevenCards[k].suite === j) {
+                    suite.push(sevenCards[k]);
+                }
+            }
+            if (suite.length > 5) {
+                let cardsToRemove = suite.length - 5;
+                suite.splice(0, cardsToRemove);
+            }
+            if (suite.length === 5) {
+                handDetected = true;
+                foundHands.flush++
+            }
+        }
+        if (handDetected) {
+            continue;
         }
 
         //find straight
@@ -227,35 +259,30 @@ for (let z = 0; z < 1000000; z++) {
         if (straight.length >= 5) {
             let cardsToRemove = straight.length - 5;
             straight.splice(0, cardsToRemove);
-            //count++;
+            foundHands.straight++
         } else if (aLowStraight.length === 5) {
-            //count++
+            handDetected = true;
+            foundHands.straight++
+        }
+        if (handDetected) {
+            continue;
         }
 
-
-        // find Full House
-        let fullHouse = [];
-        let threeOfAKind = [];
-        let pair = [];
+        // find 3 of a kind
         for (let j = 0; j <= 12; j++) {
-            let fullHouseCheck = sevenCards.filter(sevenCards => sevenCards.rank === j);
-            if (fullHouseCheck.length === 3) {
-                threeOfAKind.push(...fullHouseCheck);
-            }
-            if (fullHouseCheck.length === 2) {
-                pair.push(...fullHouseCheck);
-            }
-            if (threeOfAKind.length === 6) {
-                pair.push(threeOfAKind[0], threeOfAKind[1]);
-                threeOfAKind.splice(0, 3);
-            }
-            if (pair.length > 2) {
-                pair.splice(0, 2);
+            let threeOfKind = sevenCards.filter(sevenCards => sevenCards.rank === j);
+            if (threeOfKind.length === 3) {
+                let leftOvers = sevenCards.filter(sevenCards => sevenCards.rank !== j);
+                leftOvers.sort(function (a, b) {
+                    return a.rank - b.rank;
+                });
+                threeOfKind.push(leftOvers[3], leftOvers[2]);
+                handDetected = true;
+                foundHands.threeOfAKind++
             }
         }
-        fullHouse.push(...pair, ...threeOfAKind);
-        if (fullHouse.length === 5) {
-            //count++;
+        if (handDetected) {
+            continue;
         }
 
         //find 2 pair
@@ -279,10 +306,31 @@ for (let z = 0; z < 1000000; z++) {
         });
         if (twoPair.length === 4) {
             twoPair.push(highCard[2]);
-            //console.log('twoPair', twoPair);
+            handDetected = true;
+            foundHands.twoPair++
         }
+        if (handDetected) {
+            continue;
+        }
+
+        //find a Pair
+        for (let j = 0; j < 6; j++) {
+            if (sevenCards[j].rank === sevenCards[j + 1].rank) {
+                handDetected = true;
+                foundHands.pair++
+            }
+        }
+        if (handDetected) {
+            continue;
+        }
+
+
+        // find a High Card
+        highCard = [sevenCards[6], sevenCards[5], sevenCards[4], sevenCards[3], sevenCards[2]];
+        foundHands.highCard++
+
 
     }
 }
 
-console.log('count: ', count);
+console.log(foundHands);
