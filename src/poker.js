@@ -274,10 +274,14 @@ for (let z = 0; z < 1000000; z++) {
             highCard.push(twoPair[0]);
             twoPair.slice(0, 2);
         }
+        highCard.sort(function (a, b) {
+            return a.rank - b.rank;
+        });
         if (twoPair.length === 4) {
             twoPair.push(highCard[2]);
             //console.log('twoPair', twoPair);
         }
+
     }
 }
 
