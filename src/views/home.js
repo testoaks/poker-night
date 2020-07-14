@@ -1,4 +1,4 @@
-ngapp.controller('homeController', function () {
+ngapp.controller('homeController', function ($scope) {
 
 });
 

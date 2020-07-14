@@ -58,14 +58,6 @@ for (let z = 0; z < 10; z++) {
         sevenCards.sort(function (a, b) {
             return a.rank - b.rank;
         });
-        //console.log(sevenCards);
-        //console.log('table', table);
-        //console.log('players', [players[i]]);
-
-
-        //See what card we got
-        //console.log(players);
-        //console.log(table);
 
         //find Royal Flush
         for (let suite = 0; suite < 4; suite++) {
@@ -299,7 +291,7 @@ for (let z = 0; z < 10; z++) {
         }
         if (twoPair.length === 6) {
             highCard.push(twoPair[0]);
-            twoPair.slice(0, 2);
+            twoPair.splice(0, 2);
         }
         highCard.sort(function (a, b) {
             return a.rank - b.rank;
