@@ -5,7 +5,6 @@ Thumbs.db
 *.db
 
 /.idea
-/build
 /dist
 /temp
 
