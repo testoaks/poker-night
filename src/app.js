@@ -1,6 +1,5 @@
 import "./helpers/context_menu.js";
 import "./helpers/external_links.js";
-import './stylesheets/main.scss';
 import 'angular';
 import 'angular-ui-router';
 import 'ui-router-extras';
