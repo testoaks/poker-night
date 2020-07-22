@@ -4,8 +4,22 @@
   <meta charset="utf-8">
   <title>Electron Boilerplate</title>
   <script src="app.js"></script>
+  <style>
+    ::placeholder {
+      color: white;
+      opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder { /* Internet Explorer 10-11 */
+      color: white;
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+      color: white;
+    }
+  </style>
 </head>
-<body ng-app="myApp" style="background-image: url('Poker App Images/Welcome.png')">
+<body ng-app="myApp">
   <div class="content" ui-view></div>
 </body>
 </html>

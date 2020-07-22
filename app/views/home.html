@@ -1,6 +1,19 @@
 <div class="flex-container">
-    <div class="logo center"> <img class="center" src="Poker App Images/Poker Night.png"> </div>
-    <div class="username center moveButtons"> <img class="center" src="Poker App Images/Input.png"> </div>
-    <div class="password center moveButtons"> <img class="center" src="Poker App Images/Input.png"> </div>
-    <div class="login center moveButtons"> <img class="center" src="Poker App Images/Log In.png"> </div>
+    <div class="logo center logo-container"></div>
+
+    <div class="username center moveButtons input-container">
+        <input class="input" ng-model="username" placeholder="Username" type="text">
+    </div>
+
+    <div class="password center passwordOverlap moveButtons input-container">
+        <input class="input" ng-model="password" type="password" placeholder="Password">
+    </div>
+
+    <div class="login center loginOverlap moveButtons">
+        <button class="button">
+            <img class="center" src="Poker App Images/Log In.png">
+        </button>
+    </div>
+
+
 </div>

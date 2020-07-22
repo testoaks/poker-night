@@ -6,17 +6,60 @@ body {
   padding: 0;
 }
 
-.moveButtons{
-  height: 11.5rem;
+body{
+  background-image: url("file:///app/Poker App Images/Welcome.png")
+}
+
+.logo-container {
+  background: url("file:///app/Poker App Images/Poker Night.png") no-repeat center center;
+  padding-top: 102px;
+  min-height: 359px;
+}
+
+.button {
+  background-color: #18173e;
+  border: none;
+}
+
+.input-container {
+  background: url("file:///app/Poker App Images/Input.png") no-repeat center center;
+  min-height: 248px;
+  margin-top: -3%;
+}
+
+.input {
+  font-size: 40px;
+  font-family: "Futura", sans-serif;
+  font-weight: bold;
+  color: white;
+  background: none;
+  width: 536px;
+  height: 30px;
+  border: none;
+  outline: none;
+  padding: 100px;
+  padding-right: 116px;
+}
+
+.passwordOverlap {
+  position: relative;
+  z-index: 1;
+  margin-top: -5%;
+}
+
+.loginOverlap {
+  position: relative;
+  z-index: 1;
+  margin-top: -4%;
+}
+
+.moveButtons {
+  height: 15.5rem;
 }
 
 .center {
   display: block;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
-
-.logo {
-
-}
-
